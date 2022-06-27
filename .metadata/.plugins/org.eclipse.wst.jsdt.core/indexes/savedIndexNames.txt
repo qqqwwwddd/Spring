@@ -1,0 +1,5 @@
+INDEX VERSION 1.4+/Users/qqqwwwddd/Fullstack/Spring/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2819777838.index
+2064057128.index
+1298782438.index
+733800712.index

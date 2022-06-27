@@ -1,0 +1,9 @@
+package step01.model.domain;
+
+public class People {
+
+	private String name;
+	private int age;
+	private Car myCar;
+
+}

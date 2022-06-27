@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="c1" class="step01.model.domain.Car">
+	<!-- 초기값이 있는상태로 만들기 -->
+	<constructor-arg name="carNo" value="51" /> <!-- Car (carNo, carName) 이라 하나만 하면 에러뜸 -->
+	<constructor-arg name="carName">
+		<value>busan</value>	
+	</constructor-arg>
+	</bean>
+</beans>

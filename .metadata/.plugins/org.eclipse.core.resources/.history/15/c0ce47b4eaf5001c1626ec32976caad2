@@ -1,0 +1,9 @@
+package com.spring.di.config;
+
+public class Step04Config {
+
+	public static void main(String[] args) {
+
+	}
+
+}

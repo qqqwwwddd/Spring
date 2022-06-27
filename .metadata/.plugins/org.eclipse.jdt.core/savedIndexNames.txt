@@ -1,0 +1,14 @@
+INDEX VERSION 1.131+/Users/qqqwwwddd/Fullstack/Spring/.metadata/.plugins/org.eclipse.jdt.core
+2999779763.index
+141164336.index
+2745194847.index
+1509512146.index
+2558133349.index
+3441832009.index
+1855295258.index
+1298782438.index
+3737049722.index
+2064057128.index
+820773060.index
+382055009.index
+1648009385.index
