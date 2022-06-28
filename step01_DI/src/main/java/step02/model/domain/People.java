@@ -19,6 +19,7 @@ public class People {
 		System.out.println("People 기본 생성자");
 	}
 
+	@Autowired
 	public People(String name, int age, Car myCar) {
 		this.name = name;
 		this.age = age;
@@ -27,4 +28,9 @@ public class People {
 		System.out.println("People 생성자");
 	}
 
+	@Autowired
+	public void setMyCar(Car myCar) {
+		this.myCar = myCar;
+
+	}
 }

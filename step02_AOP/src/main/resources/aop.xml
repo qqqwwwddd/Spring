@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<aop:aspectj-autoproxy/>
+	
+	<bean id="car" class="com.spring.aop.Car"/>
+	<bean id="common" class="com.spring.common.NoticeAspect"/>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.spring.aop.Car.buy*(..))" id="buyLogic"/>
+		<aop:pointcut expression="execution(* com.spring.aop.Car.sell*(..))" id="sellLogic"/>
+
+				
+		<aop:aspect ref="common"> <!-- aspect : advisor 정의  -->
+			 <!-- aspect 내에서 공통적으로 정해줄 메소드 before: 시작전에 실행함. 구매전 로직-->
+			<aop:before method="noticeBuyStart" pointcut-ref="buyLogic"/>
+						
+			<aop:after method="noticeByEnd" pointcut-ref="buyLogic"/>
+		
+			<aop:after-returning method="noticeReturnValue" pointcut-ref="buyLogic" returning="v"/>
+		
+			<aop:after-throwing method="noticeSellException" pointcut-ref="sellLogic" throwing="exception"/>
+		</aop:aspect>
+	</aop:config>	
+	
+
+
+</beans>
