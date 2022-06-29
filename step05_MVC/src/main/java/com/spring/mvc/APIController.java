@@ -66,8 +66,8 @@ public class APIController {
 	public String exceptionHandling(Exception e) {
 		return "redirect:failView.jsp?msg=" + e.getMessage();
 	}
-	// 따로 메소드를 뺀 이유 : 다른데서도 려고
-	// redirect 를 하지 않으면 servlet-context.xml 로 찾아 가지만
-	// redirect 하면 webapp 으로 감
+	// 따로 메소드를 뺀 이유 : 다른데서도 쓰려고
+	// redirect / forward 를 하지 않으면 servlet-context.xml 로 찾아 가지만
+	// redirect / forward 하면 webapp 으로 감
 
 }

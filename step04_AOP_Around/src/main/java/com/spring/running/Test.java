@@ -12,17 +12,17 @@ public class Test {
 		ApplicationContext context = new ClassPathXmlApplicationContext("aop.xml");
 
 		Car car = context.getBean("car", Car.class);
-		car.buy();
-		car.buyMoney(2000);
+		// car.buy();
+		// car.buyMoney(2000);
 
 		String v = car.buyReturn();
 
-		try {
-			car.sellCar(500);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
+//		try {
+//			car.sellCar(10000);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			System.out.println(e.getMessage());
+//		}
 	}
 
 }

@@ -12,7 +12,7 @@ public class URLTemplateController {
 	@GetMapping(value = "urlTest.do/{id}")
 	public String urlTest1(@PathVariable String id) { // int -> String
 		System.out.println("value - " + id);
-		return "forward:/view.jsp";
+		return "../view.jsp";
 	}
 
 	// Model API 활용하기
