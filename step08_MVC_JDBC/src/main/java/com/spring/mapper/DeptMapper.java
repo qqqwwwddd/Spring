@@ -36,7 +36,12 @@ public interface DeptMapper {
 	// 2. map
 	public void updateDeptByDeptnoAndDname(Map data);
 
+	public void updateDeptByDeptno(Dept dept);
+
 	// delete : where loc = "MOON"
+
 	public void deleteDeptByLoc(String loc);
+
+	public void deleteDeptByDeptno(int deptno);
 
 }

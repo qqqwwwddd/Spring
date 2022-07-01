@@ -14,8 +14,14 @@ prefix="c"%> <%@ page session="false"%>
         <button onclick="getDepts()">확인</button>
         <br />
         <div id="depts"></div>
+
         <h3>2. Dept 추가</h3>
-        <form action="#" name="inputForm" onsubmit="return insertDept()">
+        <form
+            action="#"
+            name="inputForm"
+            onsubmit="return insertDept()"
+            method="post"
+        >
             <input
                 type="text"
                 name="deptno"
@@ -28,7 +34,13 @@ prefix="c"%> <%@ page session="false"%>
             <br />
             <input type="submit" value="추가" />
         </form>
-        <div id="test"></div>
+		<h3> 3. Dept 수정 </h3>
+        <form
+            action="#"
+            name="updateForm"
+            onsubmit="return updateDept()"
+            method="post"
+        ></form>
 
         <script>
             function getDepts() {
@@ -84,6 +96,33 @@ prefix="c"%> <%@ page session="false"%>
                     //("deptno=100&dname=TEST&loc=TEST");
                     axios
                         .post("http://localhost:8080/jdbc/api/deptform", form)
+                        .then((response) => {
+                            if (response.status == 200) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                } else {
+                    alert("입력값을 확인해주세요!");
+                }
+            }
+
+            function updateDept() {
+                var updateValues = window.document.updateForm;
+                console.log(updateValues.deptno.value);
+                let deptno = updateValues.deptno.value;
+                let dname = updateValues.dname.value;
+                let loc = inputValues.loc.value;
+
+                let form = new URLSearchParams();
+                if (deptno != "" && dname != "" && loc != "") {
+                    form.append("deptno", deptno);
+                    form.append("dname", dname);
+                    form.append("loc", loc);
+                    //("deptno=100&dname=TEST&loc=TEST");
+                    axios
+                        .put("http://localhost:8080/jdbc/api/deptform", form)
                         .then((response) => {
                             if (response.status == 200) {
                                 return true;

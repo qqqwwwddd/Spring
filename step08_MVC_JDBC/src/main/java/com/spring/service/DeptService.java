@@ -27,6 +27,10 @@ public interface DeptService {
 	// update 2. Map
 	public void updateDeptByDeptnoAndDname(Map<String, Object> data);
 
+	public void updateDeptByDeptno(Dept dept);
+
 	// delete
 	public void deleteDeptByLoc(String loc);
+
+	public void deleteDeptByDeptno(int deptno);
 }
