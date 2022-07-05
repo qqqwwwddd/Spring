@@ -1,6 +1,6 @@
 package com.example.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ public class Emp {
 
 	private Long mgr;
 
-	private LocalDateTime hiredate;
+	private LocalDate hiredate;
 
 	private Double sal;
 

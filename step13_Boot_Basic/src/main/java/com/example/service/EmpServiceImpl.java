@@ -30,16 +30,37 @@ public class EmpServiceImpl implements EmpService {
 	// emp 추가
 	@Override
 	public void insertEmp(Emp emp) {
-		empRepository.save(emp);
+		if (getEmpByEmpno(emp.getEmpno()) == null) {
+			empRepository.save(emp);
+		}
 	}
 
 	// 사원번호로 emp 수정
-	@Override
-	public void updateEmpByEmpno(Emp emp) {
-		Emp empFind = empRepository.getEmpByEmpno(emp.getEmpno());
+//	@Override
+//	public void updateEmpByEmpno(Emp emp) {
+//		Emp empFind = empRepository.getEmpByEmpno(emp.getEmpno());
+//
+//		if (empFind != null) {
+//			empRepository.save(emp);
+//		}
+//
+//	}
 
-		if (empFind != null) {
-			empRepository.save(emp);
+	@Override
+	public void updateEmpByEmpno(Emp newEmp) {
+		Emp preEmp = empRepository.getEmpByEmpno(newEmp.getEmpno());
+
+		if (preEmp != null) {
+
+			preEmp.setEname(newEmp.getEname() == null ? preEmp.getEname() : newEmp.getEname());
+			preEmp.setJob(newEmp.getJob() == null ? preEmp.getJob() : newEmp.getJob());
+			preEmp.setMgr(newEmp.getMgr() == null ? preEmp.getMgr() : newEmp.getMgr());
+			preEmp.setHiredate(newEmp.getHiredate() == null ? preEmp.getHiredate() : newEmp.getHiredate());
+			preEmp.setSal(newEmp.getSal() == null ? preEmp.getSal() : newEmp.getSal());
+			preEmp.setComm(newEmp.getComm() == null ? preEmp.getComm() : newEmp.getComm());
+			preEmp.setDept(newEmp.getDept() == null ? preEmp.getDept() : newEmp.getDept());
+
+			empRepository.save(preEmp);
 		}
 
 	}

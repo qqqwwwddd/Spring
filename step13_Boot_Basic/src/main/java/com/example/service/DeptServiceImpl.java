@@ -30,7 +30,12 @@ public class DeptServiceImpl implements DeptService {
 	// dept 추가
 	@Override
 	public void insertDept(Dept dept) {
-		deptRepository.save(dept);
+
+		if (getDeptByDeptno(dept.getDeptno()) == null) {
+
+			deptRepository.save(dept);
+
+		}
 	}
 
 	// 부서번호로 dept 수정
