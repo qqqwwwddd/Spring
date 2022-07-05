@@ -18,6 +18,7 @@ import com.spring.service.DeptServiceImpl;
 
 @org.springframework.web.bind.annotation.RestController
 // @Controller + @ResponseBody
+@CrossOrigin(origins = { "http://localhost:3000" })
 public class RestController {
 
 	@Autowired
