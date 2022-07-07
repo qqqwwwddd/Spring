@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -24,7 +23,6 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Builder
 @ToString(exclude = { "emps" })
 public class Dept {
 
