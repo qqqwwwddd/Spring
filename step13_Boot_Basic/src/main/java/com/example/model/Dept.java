@@ -11,11 +11,20 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+//@Entity
+//@Getter
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Builder
+// -> entity에선 setter 사용 x
+
 @Data
 @Entity
+@Builder
 @ToString(exclude = { "emps" })
 public class Dept {
 
