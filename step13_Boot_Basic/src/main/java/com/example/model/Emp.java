@@ -4,15 +4,26 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Data
+import com.example.dto.EmpDTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @Entity
-
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Emp {
 
 	@Id
@@ -37,5 +48,13 @@ public class Emp {
 	@ManyToOne
 	@JoinColumn(name = "deptno")
 	private Dept dept;
+
+	// toDTO
+	public EmpDTO toDTO(Emp empEntity) {
+		EmpDTO empDTO = EmpDTO.builder().empno(empEntity.getEmpno()).ename(empEntity.getEname()).job(empEntity.getJob())
+				.mgr(empEntity.getMgr()).hiredate(empEntity.getHiredate()).sal(empEntity.getSal())
+				.comm(empEntity.getComm()).dept(empEntity.getDept()).build();
+		return empDTO;
+	}
 
 }

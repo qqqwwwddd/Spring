@@ -2,21 +2,21 @@ package com.example.service;
 
 import java.util.List;
 
-import com.example.model.Dept;
+import com.example.dto.DeptDTO;
 
 public interface DeptService {
 
 	// 모든 dept
-	public List<Dept> getDeptAll();
+	public List<DeptDTO> getDeptAll();
 
 	// 부서번호로 dept 검색
-	public Dept getDeptByDeptno(Long deptno);
+	public DeptDTO getDeptByDeptno(Long deptno);
 
 	// dept 추가
-	public void insertDept(Dept dept);
+	public void insertDept(DeptDTO deptDTO);
 
 	// 부서번호로 dept 수정
-	public void updateDeptByDeptno(Long deptno, Dept dept);
+	public void updateDeptByDeptno(Long deptno, DeptDTO newDeptDTO);
 
 	// 부서번호로 dept 삭제
 	public void deleteDeptByDeptno(Long deptno);

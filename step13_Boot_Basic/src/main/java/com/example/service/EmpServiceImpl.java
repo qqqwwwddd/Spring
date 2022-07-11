@@ -1,10 +1,18 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.EmpDTO;
+import com.example.dto.PageRequestDTO;
+import com.example.dto.PageResultDTO;
 import com.example.model.Emp;
 import com.example.repository.EmpRepository;
 
@@ -16,22 +24,31 @@ public class EmpServiceImpl implements EmpService {
 
 	// 모든 emp
 	@Override
-	public List<Emp> getEmpAll() {
+	public List<EmpDTO> getEmpAll() {
 
-		return empRepository.findAll();
+		List<EmpDTO> empDTO = new ArrayList<EmpDTO>();
+		for (Emp empEntity : empRepository.findAll()) {
+			empDTO.add(empEntity.toDTO(empEntity));
+		}
+		return empDTO;
 	}
 
 	// 사원번호로 emp 검색
 	@Override
-	public Emp getEmpByEmpno(Long empno) {
-		return empRepository.getEmpByEmpno(empno);
+	public EmpDTO getEmpByEmpno(Long empno) {
+		Emp empEntity = empRepository.getEmpByEmpno(empno);
+		if (empEntity != null) {
+			return empEntity.toDTO(empEntity);
+		} else {
+			return null;
+		}
 	}
 
 	// emp 추가
 	@Override
-	public void insertEmp(Emp emp) {
-		if (getEmpByEmpno(emp.getEmpno()) == null) {
-			empRepository.save(emp);
+	public void insertEmp(EmpDTO empDTO) {
+		if (getEmpByEmpno(empDTO.getEmpno()) == null) {
+			empRepository.save(empDTO.toEntity(empDTO));
 		}
 	}
 
@@ -47,20 +64,19 @@ public class EmpServiceImpl implements EmpService {
 //	}
 
 	@Override
-	public void updateEmpByEmpno(Emp newEmp) {
-		Emp preEmp = empRepository.getEmpByEmpno(newEmp.getEmpno());
+	public void updateEmpByEmpno(EmpDTO newEmpDTO) {
+		EmpDTO preEmp = getEmpByEmpno(newEmpDTO.getEmpno());
 
 		if (preEmp != null) {
 
-			preEmp.setEname(newEmp.getEname() == null ? preEmp.getEname() : newEmp.getEname());
-			preEmp.setJob(newEmp.getJob() == null ? preEmp.getJob() : newEmp.getJob());
-			preEmp.setMgr(newEmp.getMgr() == null ? preEmp.getMgr() : newEmp.getMgr());
-			preEmp.setHiredate(newEmp.getHiredate() == null ? preEmp.getHiredate() : newEmp.getHiredate());
-			preEmp.setSal(newEmp.getSal() == null ? preEmp.getSal() : newEmp.getSal());
-			preEmp.setComm(newEmp.getComm() == null ? preEmp.getComm() : newEmp.getComm());
-			preEmp.setDept(newEmp.getDept() == null ? preEmp.getDept() : newEmp.getDept());
-
-			empRepository.save(preEmp);
+			preEmp.setEname(newEmpDTO.getEname() == null ? preEmp.getEname() : newEmpDTO.getEname());
+			preEmp.setJob(newEmpDTO.getJob() == null ? preEmp.getJob() : newEmpDTO.getJob());
+			preEmp.setMgr(newEmpDTO.getMgr() == null ? preEmp.getMgr() : newEmpDTO.getMgr());
+			preEmp.setHiredate(newEmpDTO.getHiredate() == null ? preEmp.getHiredate() : newEmpDTO.getHiredate());
+			preEmp.setSal(newEmpDTO.getSal() == null ? preEmp.getSal() : newEmpDTO.getSal());
+			preEmp.setComm(newEmpDTO.getComm() == null ? preEmp.getComm() : newEmpDTO.getComm());
+			preEmp.setDept(newEmpDTO.getDept() == null ? preEmp.getDept() : newEmpDTO.getDept());
+			empRepository.save(preEmp.toEntity(preEmp));
 		}
 
 	}
@@ -71,4 +87,16 @@ public class EmpServiceImpl implements EmpService {
 		empRepository.deleteById(empno);
 	}
 
+	// paging
+
+	public PageResultDTO<EmpDTO, Emp> getList(PageRequestDTO pageRequestDTO) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("empno").ascending());
+
+		Page<Emp> result = empRepository.findAll(pageable);
+
+		// entity -> dto
+		Function<Emp, EmpDTO> function = (empEntity -> empEntity.toDTO(empEntity));
+
+		return new PageResultDTO<EmpDTO, Emp>(result, function);
+	}
 }

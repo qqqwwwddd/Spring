@@ -129,16 +129,18 @@ public class FileController {
 	}
 
 //	@GetMapping("/file-download/{id}")
-//	public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
-//		String filePath = fileRepository.findById(id).get().getFilePath();
+//	public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws IOException {
+//		FileEntity fileEntity = fileRepository.findById(id).get();
 //
-//		try {
-//			FileInputStream fis = new FileInputStream(filePath);
-//			Resource resource = new Resource(fis, "");
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
+//		Path path = Paths.get(fileEntity.getFilePath());
+//		Resource resource = new InputStreamResource(Files.newInputStream((path)));
+//
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setContentDisposition(ContentDisposition.builder("attachment")
+//				.filename(fileEntity.getOriginalFilename(), StandardCharsets.UTF_8).build());
+//		headers.add(HttpHeaders.CONTENT_TYPE, "text/plain");
+//
+//		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 //	}
 
 }

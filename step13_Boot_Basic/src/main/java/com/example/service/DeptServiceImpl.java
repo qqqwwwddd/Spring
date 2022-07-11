@@ -1,10 +1,18 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.DeptDTO;
+import com.example.dto.PageRequestDTO;
+import com.example.dto.PageResultDTO;
 import com.example.model.Dept;
 import com.example.repository.DeptRepository;
 
@@ -16,24 +24,35 @@ public class DeptServiceImpl implements DeptService {
 
 	// 모든 dept
 	@Override
-	public List<Dept> getDeptAll() {
+	public List<DeptDTO> getDeptAll() {
 
-		return deptRepository.findAll(); // DeptRepository 통해 -> Dao -> Service 전달
+		List<DeptDTO> deptDTO = new ArrayList<DeptDTO>();
+		for (Dept deptEntity : deptRepository.findAll()) {
+			deptDTO.add(deptEntity.toDTO(deptEntity));
+
+		}
+
+		return deptDTO; // DeptRepository 통해 -> Dao -> Service 전달
 	}
 
 	// 부서번호로 검색
 	@Override
-	public Dept getDeptByDeptno(Long deptno) {
-		return deptRepository.findDeptByDeptno(deptno);
+	public DeptDTO getDeptByDeptno(Long deptno) {
+		Dept deptEntity = deptRepository.findDeptByDeptno(deptno);
+		if (deptEntity != null) {
+			return deptEntity.toDTO(deptEntity);
+		} else {
+			return null;
+		}
 	}
 
 	// dept 추가
 	@Override
-	public void insertDept(Dept dept) {
+	public void insertDept(DeptDTO deptDTO) {
 
-		if (getDeptByDeptno(dept.getDeptno()) == null) {
+		if (getDeptByDeptno(deptDTO.getDeptno()) == null) {
 
-			deptRepository.save(dept);
+			deptRepository.save(deptDTO.toEntity(deptDTO));
 
 		}
 	}
@@ -44,15 +63,18 @@ public class DeptServiceImpl implements DeptService {
 //		System.out.println(dept);
 //		Dept deptFind = deptRepository.findDeptByDeptno(dept.getDeptno());
 
-	public void updateDeptByDeptno(Long deptno, Dept newDept) {
+	public void updateDeptByDeptno(Long deptno, DeptDTO newDeptDTO) {
 		System.out.println(deptno);
 		Dept deptFind = deptRepository.findDeptByDeptno(deptno);
 
 		if (deptFind != null) {
+			newDeptDTO.setDeptno(deptno);
 
-			deptFind.setDname(newDept.getDname());
-			deptFind.setLoc(newDept.getLoc());
-			deptRepository.save(deptFind);
+			deptRepository.save(newDeptDTO.toEntity(newDeptDTO));
+
+//			deptFind.setDname(newDeptDTO.getDname());
+//			deptFind.setLoc(newDeptDTO.getLoc());
+
 		}
 
 	}
@@ -61,6 +83,19 @@ public class DeptServiceImpl implements DeptService {
 	@Override
 	public void deleteDeptByDeptno(Long deptno) {
 		deptRepository.deleteById(deptno);
+	}
+
+	// paging
+
+	public PageResultDTO<DeptDTO, Dept> getList(PageRequestDTO pageRequestDTO) {
+		Pageable pageable = pageRequestDTO.getPageable(Sort.by("deptno").ascending());
+
+		Page<Dept> result = deptRepository.findAll(pageable);
+
+		// entity -> dto
+		Function<Dept, DeptDTO> function = (deptEntity -> deptEntity.toDTO(deptEntity));
+
+		return new PageResultDTO<DeptDTO, Dept>(result, function);
 	}
 
 }
